@@ -11,9 +11,7 @@ import SwiftData
 struct GymView: View {
 
     @Environment(\.modelContext) private var modelContext
-    // Create the repository using the environment context
     private var repository: GymRepository { DefaultGymRepository(modelContext: modelContext) }
-    // Optional existing record to edit (when coming from history)
     var record: GymModel?
 
     private var headerDateFormatter: DateFormatter {
