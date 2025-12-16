@@ -116,7 +116,7 @@ struct HydrationView: View {
             }
             .frame(width: geo.size.width, height: geo.size.height)
         }
-        .navigationTitle(headerTitleDateString)
+        .navigationTitle("Your today's water intake")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             initializeState()

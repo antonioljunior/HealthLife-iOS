@@ -33,6 +33,11 @@ struct HomeView: View {
                             BodyMeasurementsCard()
                         }
                         .buttonStyle(.plain)
+                        
+                        NavigationLink(destination: BodyMeasurementsView()) {
+                            AppConfigurationCard()
+                        }
+                        .buttonStyle(.plain)
                     }
 
                     // Spacer to push logout near bottom when content is short
@@ -303,6 +308,76 @@ private struct BodyMeasurementsCard: View {
         .shadow(color: Color.black.opacity(colorScheme == .dark ? 0.35 : 0.12), radius: 10, x: 0, y: 6)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("Body Measures. Track your body measurements.")
+    }
+
+    private var cardBackground: some ShapeStyle {
+        LinearGradient(
+            colors: [
+                Color.primary.opacity(colorScheme == .dark ? 0.08 : 0.04),
+                Color.purple.opacity(colorScheme == .dark ? 0.20 : 0.12)
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+
+    private var bodyIconName: String {
+        if #available(iOS 17.0, *) {
+            return "figure.arms.open"
+        } else {
+            return "figure.wave.circle"
+        }
+    }
+}
+
+private struct AppConfigurationCard: View {
+    @Environment(\.colorScheme) private var colorScheme
+
+    var body: some View {
+        ZStack {
+            // Card background
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .fill(cardBackground)
+
+            // Content
+            HStack(spacing: 16) {
+                // Icon bubble
+                ZStack {
+                    Circle()
+                        .fill(Color.purple.opacity(colorScheme == .dark ? 0.25 : 0.18))
+                        .frame(width: 56, height: 56)
+
+                    Image(systemName: bodyIconName)
+                        .symbolRenderingMode(.hierarchical)
+                        .foregroundStyle(.purple)
+                        .font(.system(size: 26, weight: .semibold))
+                        .accessibilityHidden(true)
+                }
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Configurations")
+                        .font(.headline)
+                    Text("Record your preferences for this app.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+
+                // Accessory chevron
+                Image(systemName: "chevron.right")
+                    .font(.headline.weight(.semibold))
+                    .foregroundStyle(.secondary)
+            }
+            .padding(16)
+        }
+        .overlay(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .strokeBorder(Color.primary.opacity(0.12), lineWidth: 1)
+        )
+        .shadow(color: Color.black.opacity(colorScheme == .dark ? 0.35 : 0.12), radius: 10, x: 0, y: 6)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Configurations. Record your preferences for this app.")
     }
 
     private var cardBackground: some ShapeStyle {
